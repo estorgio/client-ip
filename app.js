@@ -8,7 +8,9 @@ app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
   const { ip, ips } = req;
-  res.json({ ip, ips });
+  const forwardedFor = req.get('X-Forwarded-For');
+  console.log('X-Forwarded-For:', forwardedFor);
+  res.json({ ip, ips, forwardedFor });
 });
 
 const port = process.env.PORT || 3000;
