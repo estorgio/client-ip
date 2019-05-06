@@ -1,17 +1,18 @@
 require('dotenv').config();
 
 const express = require('express');
+const getIP = require('./utils/get-ip');
 
 const app = express();
 
 app.set('view engine', 'ejs');
-app.set('trust proxy', true);
+app.set('trust proxy', getIP.isTrustedProxy());
+
+app.use(getIP.extractClientIP);
 
 app.get('/', (req, res) => {
-  const { ip, ips } = req;
-  const forwardedFor = req.get('X-Forwarded-For');
-  console.log('X-Forwarded-For:', forwardedFor);
-  res.json({ ip, ips, forwardedFor });
+  const { clientIP } = req;
+  res.json({ clientIP });
 });
 
 const port = process.env.PORT || 3000;
