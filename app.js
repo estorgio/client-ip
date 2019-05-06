@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 
 app.set('view engine', 'ejs');
+app.set('trust proxy', true);
 
 app.get('/', (req, res) => {
   const { ip, ips } = req;
